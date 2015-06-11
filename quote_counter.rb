@@ -10,7 +10,7 @@ QuoteVotes = {}
 class QuoteCounter < Sinatra::Base
   post '/add_quote' do
     quote = params[:quote]
-    QuoteVotes[quote] = true
+    QuoteVotes[quote] = 0
     return "ok"
   end
 
@@ -22,18 +22,17 @@ class QuoteCounter < Sinatra::Base
 
   get '/vote' do
     quote = params[:quote]
-    return QuoteVotes[quote]
+    return QuoteVotes[quote].to_s
   end
 
-  get '/top_quote' do
+  get '/top_quote/?:needle?' do
     matches = if params[:needle]
       QuoteVotes.select { |quote, count| quote.include?(params[:needle]) }
     else
-      QuoteVotes
+      QuoteVotes.to_json
     end
 
     winner, count = matches.max_by { |quote, count| count }
-
     return { text: winner, votes: count }.to_json
   end
 end
