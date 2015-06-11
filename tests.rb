@@ -81,7 +81,7 @@ class CounterAppTest < Minitest::Test
     assert_equal 200, response.status
 
     quote = JSON.parse response.body
-    binding.pry
+
     assert_equal "No problem is too small or too trivial if we can really do something about it.", quote["text"]
     assert_equal 9, quote["votes"]
   end

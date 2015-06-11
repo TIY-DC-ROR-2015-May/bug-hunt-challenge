@@ -29,7 +29,7 @@ class QuoteCounter < Sinatra::Base
     matches = if params[:needle]
       QuoteVotes.select { |quote, count| quote.include?(params[:needle]) }
     else
-      QuoteVotes.to_json
+      QuoteVotes
     end
 
     winner, count = matches.max_by { |quote, count| count }
